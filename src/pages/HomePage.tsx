@@ -1,5 +1,6 @@
 import React from 'react'
 import Spinner from '../components/Spinner'
+import WeatherIcon from '../components/WeatherIcon'
 
 import { useState, useEffect } from 'react'
 
@@ -13,6 +14,7 @@ const HomePage = () => {
     const [timezone, setTimezone] = useState('America/Los Angeles')
     const [offset, setOffset] = useState('')
     const [elevation, setElevation] = useState(0)
+    const [icon, setIcon] = useState('')
     const [summary, setSummary] = useState('')
     const [precipIntensity, setPrecipIntensity] = useState()
     const [precipProbability, setPrecipProbability] = useState(0)
@@ -22,6 +24,8 @@ const HomePage = () => {
     const [windSpeed, setWindSpeed] = useState()
     const [windBearing, setWindBearing] = useState()
     const [cloudCover, setCloudCover] = useState()
+    const [sunrise, setSunrise] = useState()
+    const [sunset, setSunset] = useState()
 
     const [loading, setLoading] = useState(true)
 
@@ -39,6 +43,7 @@ const HomePage = () => {
                 setOffset(data.offset);
                 setElevation(data.elevation);
                 setSummary(data.currently.summary);
+                setIcon(data.currently.icon);
                 setPrecipIntensity(data.currently.precipIntensity);
                 setPrecipProbability(data.currently.precipProbability);
                 setPrecipType(data.currently.precipType);
@@ -67,7 +72,7 @@ const HomePage = () => {
         {loading ? (<Spinner loading={loading}/>) : (
             <>
                 <h1>Current weather for Seattle, WA</h1>
-                <div>{summary}</div>
+                <div className='flex justify-center items-center'><div className='px-2'><WeatherIcon icon={icon} /></div>{summary}</div>
                 <div>Current temperature: {temperature} degrees F</div>
                 <div>Current precipitation intensity: {precipIntensity} inches / hour</div>
                 <div>Current precipitation probability: {precipProbability} %</div>
