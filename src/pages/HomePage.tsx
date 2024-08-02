@@ -1,5 +1,6 @@
 import React from 'react'
 import Spinner from '../components/Spinner'
+import Geocoder from '../components/Geocoder'
 import WeatherIcon from '../components/WeatherIcon'
 
 import { useState, useEffect } from 'react'
@@ -71,7 +72,7 @@ const HomePage = () => {
         <>
         {loading ? (<Spinner loading={loading}/>) : (
             <>
-                <h1>Current weather for Seattle, WA</h1>
+                <h1>Current weather for <Geocoder latitude={latitude} longitude={longitude} /></h1>
                 <div className='flex justify-center items-center'><div className='px-2'><WeatherIcon icon={icon} /></div>{summary}</div>
                 <div>Current temperature: {temperature} degrees F</div>
                 <div>Current precipitation intensity: {precipIntensity} inches / hour</div>
