@@ -1,15 +1,17 @@
 import React from 'react'
 import Spinner from '../components/Spinner'
+import { SEATTLE_LATITUDE, SEATTLE_LONGITUDE } from '../constants/Constants'
 import { useState, useEffect } from 'react'
 
 
 
 interface GeocoderProps {
-    latitude: number
-    longitude: number
+    latitude?: number
+    longitude?: number
 }
 
-const Geocoder : React.FC<GeocoderProps> = ({latitude, longitude}) => {
+const Geocoder : React.FC<GeocoderProps> = ({latitude = SEATTLE_LATITUDE, longitude = SEATTLE_LONGITUDE}) => {
+
     const [address, setAddress] = useState()
     const [loading, setLoading] = useState(true)
 

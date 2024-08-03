@@ -1,0 +1,2 @@
+export const SEATTLE_LATITUDE = 47.608013
+export const SEATTLE_LONGITUDE = -122.335167

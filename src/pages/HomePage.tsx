@@ -2,15 +2,14 @@ import React from 'react'
 import Spinner from '../components/Spinner'
 import Geocoder from '../components/Geocoder'
 import WeatherIcon from '../components/WeatherIcon'
+import { SEATTLE_LATITUDE, SEATTLE_LONGITUDE } from '../constants/Constants'
 
 import { useState, useEffect } from 'react'
 
 const HomePage = () => {
-    const seattleLatitude = 47.608013
-    const seattleLongitude = -122.335167
 
-    const [latitude, setLatitude] = useState(seattleLatitude)
-    const [longitude, setLongitude] = useState(seattleLongitude)
+    const [latitude, setLatitude] = useState(SEATTLE_LATITUDE)
+    const [longitude, setLongitude] = useState(SEATTLE_LONGITUDE)
 
     const [timezone, setTimezone] = useState('America/Los Angeles')
     const [offset, setOffset] = useState('')
@@ -33,13 +32,29 @@ const HomePage = () => {
     const apikey = import.meta.env.VITE_PIRATEWEATHER_API_KEY
 
     useEffect(() => {
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    setLatitude(position.coords.latitude)
+                    setLongitude(position.coords.longitude)
+                },
+                (error) => {
+                    console.error('Error getting geolocation', error)
+                }
+            )
+        } else {
+            console.error('Geolocation not supported in this browser.')
+        }
+
+    }, [])
+
+
+    useEffect(() => {
         const fetchWeather = async () => {
             try {
                 const res = await fetch(`https://api.pirateweather.net/forecast/${apikey}/${latitude},${longitude}`)
                 const data = await res.json()
     
-                setLatitude(data.latitude);
-                setLongitude(data.longitude);
                 setTimezone(data.timezone);
                 setOffset(data.offset);
                 setElevation(data.elevation);
@@ -62,11 +77,7 @@ const HomePage = () => {
         }
 
         fetchWeather()
-    }, [])
-
-
-
-
+    }, [latitude, longitude])
 
     return (
         <>
