@@ -2,7 +2,7 @@ import React from 'react'
 import Spinner from '../components/Spinner'
 import Geocoder from '../components/Geocoder'
 import WeatherIcon from '../components/WeatherIcon'
-import { SEATTLE_LATITUDE, SEATTLE_LONGITUDE } from '../constants/Constants'
+import { MILLISECONDS_IN_SECOND, SEATTLE_LATITUDE, SEATTLE_LONGITUDE } from '../constants/Constants'
 
 import { useState, useEffect } from 'react'
 
@@ -24,8 +24,8 @@ const HomePage = () => {
     const [windSpeed, setWindSpeed] = useState()
     const [windBearing, setWindBearing] = useState()
     const [cloudCover, setCloudCover] = useState()
-    const [sunrise, setSunrise] = useState()
-    const [sunset, setSunset] = useState()
+    const [sunrise, setSunrise] = useState('')
+    const [sunset, setSunset] = useState('')
 
     const [loading, setLoading] = useState(true)
 
@@ -68,6 +68,9 @@ const HomePage = () => {
                 setWindSpeed(data.currently.windSpeed);
                 setWindBearing(data.currently.windBearing);
                 setCloudCover(data.currently.cloudCover);
+                setSunrise(new Date(data.daily.data[0].sunriseTime * MILLISECONDS_IN_SECOND).toLocaleTimeString());
+                setSunset(new Date(data.daily.data[0].sunsetTime * MILLISECONDS_IN_SECOND).toLocaleTimeString());
+
 
             } catch(error) {
                 console.log('Error fetching weather data', error)
@@ -83,13 +86,16 @@ const HomePage = () => {
         <>
         {loading ? (<Spinner loading={loading}/>) : (
             <>
-                <h1>Current weather for <Geocoder latitude={latitude} longitude={longitude} /></h1>
+                <h1>Current weather for <Geocoder latitude={latitude} longitude={longitude} /> at elevation {elevation} feet</h1>
                 <div className='flex justify-center items-center'><div className='px-2'><WeatherIcon icon={icon} /></div>{summary}</div>
                 <div>Current temperature: {temperature} degrees F</div>
                 <div>Current precipitation intensity: {precipIntensity} inches / hour</div>
                 <div>Current precipitation probability: {precipProbability} %</div>
                 <div>Current wind speed: {windSpeed} mph</div>
                 <div>Current wind bearing: {windBearing} degrees</div>
+                <div>Sunrise: {sunrise}</div>
+                <div>Sunset: {sunset}</div>
+
 
             </>)
         }
