@@ -1,10 +1,11 @@
 import React from 'react'
 import Spinner from '../components/Spinner'
-import Geocoder from '../components/Geocoder'
+import ReverseGeocoder from '../components/ReverseGeocoder'
 import WeatherIcon from '../components/WeatherIcon'
 import { MILLISECONDS_IN_SECOND, SEATTLE_LATITUDE, SEATTLE_LONGITUDE } from '../constants/Constants'
 
 import { useState, useEffect } from 'react'
+import GeocoderSearchBar from '../components/GeocoderSearchBar'
 
 const HomePage = () => {
 
@@ -30,6 +31,25 @@ const HomePage = () => {
     const [loading, setLoading] = useState(true)
 
     const apikey = import.meta.env.VITE_PIRATEWEATHER_API_KEY
+
+    const geocodeSearch = async (query: string) => {
+
+        try {
+
+            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+            const data = await res.json()
+
+            setLatitude(data.lat)
+            setLongitude(data.lon)
+
+        } catch(error) {
+            console.log('Error fetching address', error)
+        } finally {
+            setLoading(false)
+        }
+
+
+    }
 
     useEffect(() => {
         if ('geolocation' in navigator) {
@@ -84,9 +104,10 @@ const HomePage = () => {
 
     return (
         <>
+        <GeocoderSearchBar setLatitude={setLatitude} setLongitude={setLongitude} />
         {loading ? (<Spinner loading={loading}/>) : (
             <>
-                <h1>Current weather for <Geocoder latitude={latitude} longitude={longitude} /> at elevation {elevation} feet</h1>
+                <h1>Current weather for <ReverseGeocoder latitude={latitude} longitude={longitude} /> at elevation {elevation} feet</h1>
                 <div className='flex justify-center items-center'><div className='px-2'><WeatherIcon icon={icon} /></div>{summary}</div>
                 <div>Current temperature: {temperature} degrees F</div>
                 <div>Current precipitation intensity: {precipIntensity} inches / hour</div>

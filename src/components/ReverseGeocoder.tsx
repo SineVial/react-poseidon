@@ -1,16 +1,16 @@
 import React from 'react'
-import Spinner from '../components/Spinner'
+import Spinner from './Spinner'
 import { SEATTLE_LATITUDE, SEATTLE_LONGITUDE } from '../constants/Constants'
 import { useState, useEffect } from 'react'
 
 
 
-interface GeocoderProps {
+interface ReverseGeocoderProps {
     latitude?: number
     longitude?: number
 }
 
-const Geocoder : React.FC<GeocoderProps> = ({latitude = SEATTLE_LATITUDE, longitude = SEATTLE_LONGITUDE}) => {
+const ReverseGeocoder : React.FC<ReverseGeocoderProps> = ({latitude = SEATTLE_LATITUDE, longitude = SEATTLE_LONGITUDE}) => {
 
     const [address, setAddress] = useState()
     const [loading, setLoading] = useState(true)
@@ -31,7 +31,7 @@ const Geocoder : React.FC<GeocoderProps> = ({latitude = SEATTLE_LATITUDE, longit
         }
 
         fetchAddress()
-    }, [])
+    }, [latitude, longitude])
 
     return (
         <>
@@ -45,4 +45,4 @@ const Geocoder : React.FC<GeocoderProps> = ({latitude = SEATTLE_LATITUDE, longit
     )
 }
 
-export default Geocoder
+export default ReverseGeocoder
