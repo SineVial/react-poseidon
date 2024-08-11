@@ -2,15 +2,18 @@ import React from 'react'
 import Spinner from '../components/Spinner'
 import ReverseGeocoder from '../components/ReverseGeocoder'
 import WeatherIcon from '../components/WeatherIcon'
-import { MILLISECONDS_IN_SECOND, SEATTLE_LATITUDE, SEATTLE_LONGITUDE } from '../constants/Constants'
+import { MILLISECONDS_IN_SECOND } from '../constants/Constants'
 
 import { useState, useEffect } from 'react'
-import GeocoderSearchBar from '../components/GeocoderSearchBar'
 
-const HomePage = () => {
+interface HomePageProps {
+    latitude: number
+    setLatitude: React.Dispatch<React.SetStateAction<number>>
+    longitude: number
+    setLongitude: React.Dispatch<React.SetStateAction<number>>
+}
 
-    const [latitude, setLatitude] = useState(SEATTLE_LATITUDE)
-    const [longitude, setLongitude] = useState(SEATTLE_LONGITUDE)
+const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, setLongitude}) => {
 
     const [timezone, setTimezone] = useState('America/Los Angeles')
     const [offset, setOffset] = useState('')
@@ -31,25 +34,6 @@ const HomePage = () => {
     const [loading, setLoading] = useState(true)
 
     const apikey = import.meta.env.VITE_PIRATEWEATHER_API_KEY
-
-    const geocodeSearch = async (query: string) => {
-
-        try {
-
-            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
-            const data = await res.json()
-
-            setLatitude(data.lat)
-            setLongitude(data.lon)
-
-        } catch(error) {
-            console.log('Error fetching address', error)
-        } finally {
-            setLoading(false)
-        }
-
-
-    }
 
     useEffect(() => {
         if ('geolocation' in navigator) {
@@ -104,7 +88,6 @@ const HomePage = () => {
 
     return (
         <>
-        <GeocoderSearchBar setLatitude={setLatitude} setLongitude={setLongitude} />
         {loading ? (<Spinner loading={loading}/>) : (
             <>
                 <h1>Current weather for <ReverseGeocoder latitude={latitude} longitude={longitude} /> at elevation {elevation} feet</h1>
