@@ -9,11 +9,14 @@ interface NavbarProps {
 
 const Navbar : React.FC<NavbarProps> = ({setLatitude, setLongitude}) => {
   return (
-    <header className="navbar">
-        <div className="search">
+    <nav className="bg-gray-800 p-4">
+        <div className="container mx-auto flex items-center justify-between">
+          <div className="text-white text-xl font-bold">The Weather</div>
+          <div className="relative">
             <GeocoderSearchBar setLatitude={setLatitude} setLongitude={setLongitude} />
+          </div>
         </div>
-    </header>
+    </nav>
   )
 }
 

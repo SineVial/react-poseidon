@@ -9,7 +9,7 @@ interface MainLayoutProps {
 
 const MainLayout : React.FC<MainLayoutProps> = ( {setLatitude, setLongitude} ) => {
     return (
-        <div className="mainLayout">
+        <div className="min-h-screen flex flex-col">
         <Navbar setLatitude={setLatitude} setLongitude={setLongitude} />
         <Outlet />
         </div>

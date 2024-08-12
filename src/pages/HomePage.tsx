@@ -89,7 +89,7 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
     return (
         <>
         {loading ? (<Spinner loading={loading}/>) : (
-            <>
+            <div className="text-center">
                 <h1>Current weather for <ReverseGeocoder latitude={latitude} longitude={longitude} /> at elevation {elevation} feet</h1>
                 <div className='flex justify-center items-center'><div className='px-2'><WeatherIcon icon={icon} /></div>{summary}</div>
                 <div>Current temperature: {temperature} degrees F</div>
@@ -101,7 +101,7 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
                 <div>Sunset: {sunset}</div>
 
 
-            </>)
+            </div>)
         }
         </>
     )
