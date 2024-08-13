@@ -6,6 +6,7 @@ import { debounce } from 'lodash'
 interface SuggestedSearchResult {
     place_id: number
     name: string
+    addresstype: string
     lat: number
     lon: number
 }
@@ -108,8 +109,15 @@ const GeocoderSearchBar : React.FC<SearchBarProps> = ({ setLatitude, setLongitud
                             value={ssr.name}
                             onClick={() => handleSelectChange(ssr)}
                             className="px-4 py-2 cursor-pointer hover:bg-blue-500 hover:text-white"
-                            >
-                            {ssr.name}
+                        >
+                            <div className="flex justify-between">
+                            <div className="text-left">
+                                {ssr.name}
+                            </div>
+                            <div className="text-right">
+                                {ssr.addresstype}
+                            </div>
+                            </div>
                         </option>
                     ))}
                 </ul>
