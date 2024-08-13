@@ -111,12 +111,12 @@ const GeocoderSearchBar : React.FC<SearchBarProps> = ({ setLatitude, setLongitud
                             className="px-4 py-2 cursor-pointer hover:bg-blue-500 hover:text-white"
                         >
                             <div className="flex justify-between">
-                            <div className="text-left">
-                                {ssr.name}
-                            </div>
-                            <div className="text-right">
-                                {ssr.addresstype}
-                            </div>
+                                <div className="text-left">
+                                    {ssr.name}
+                                </div>
+                                <div className="text-right">
+                                    {ssr.addresstype}
+                                </div>
                             </div>
                         </option>
                     ))}
