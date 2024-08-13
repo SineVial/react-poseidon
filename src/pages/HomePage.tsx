@@ -92,9 +92,9 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
         <>
         {loading ? (<Spinner loading={loading}/>) : (
 
-            <div className="relative w-full min-h-[22em] bg-gradient-to-r from-blue-600 to-blue-400 text-center text-white">
+            <div className="relative w-full min-h-[24em] bg-gradient-to-r from-blue-600 to-blue-400 text-center text-white">
                 <div className="relative flex flex-col items-center justify-center h-full text-center">
-                    <h1 className="text-3xl font-bold mb-4 ml-2 mr-2"><ReverseGeocoder latitude={latitude} longitude={longitude} /></h1>
+                    <h1 className="text-3xl font-bold m-4"><ReverseGeocoder latitude={latitude} longitude={longitude} /></h1>
                     <div className="flex items-center text-6xl font-bold mb-4">
                         <div className='flex justify-center items-center'><div className='px-2'><WeatherIcon icon={icon} /></div>
                     </div>
