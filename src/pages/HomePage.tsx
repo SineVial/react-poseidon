@@ -23,10 +23,11 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
     const [precipIntensity, setPrecipIntensity] = useState()
     const [precipProbability, setPrecipProbability] = useState(0)
     const [precipType, setPrecipType] = useState('')
-    const [temperature, setTemperature] = useState()
+    const [temperature, setTemperature] = useState(0)
     const [apparentTemperature, setApparentTemperature] = useState(0)
     const [windSpeed, setWindSpeed] = useState()
     const [windBearing, setWindBearing] = useState()
+    const [pressure, setPressure] = useState(0)
     const [cloudCover, setCloudCover] = useState()
     const [sunrise, setSunrise] = useState('')
     const [sunset, setSunset] = useState('')
@@ -71,6 +72,7 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
                 setApparentTemperature(data.currently.apparentTemperature);
                 setWindSpeed(data.currently.windSpeed);
                 setWindBearing(data.currently.windBearing);
+                setPressure(data.currently.pressure);
                 setCloudCover(data.currently.cloudCover);
                 setSunrise(new Date(data.daily.data[0].sunriseTime * MILLISECONDS_IN_SECOND).toLocaleTimeString());
                 setSunset(new Date(data.daily.data[0].sunsetTime * MILLISECONDS_IN_SECOND).toLocaleTimeString());
@@ -89,17 +91,28 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
     return (
         <>
         {loading ? (<Spinner loading={loading}/>) : (
-            <div className="text-center">
-                <h1>Current weather for <ReverseGeocoder latitude={latitude} longitude={longitude} /> at elevation {elevation} feet</h1>
-                <div className='flex justify-center items-center'><div className='px-2'><WeatherIcon icon={icon} /></div>{summary}</div>
-                <div>Current temperature: {temperature} degrees F</div>
-                <div>Current precipitation intensity: {precipIntensity} inches / hour</div>
-                <div>Current precipitation probability: {precipProbability} %</div>
-                <div>Current wind speed: {windSpeed} mph</div>
-                <div>Current wind bearing: {windBearing} degrees</div>
-                <div>Sunrise: {sunrise}</div>
-                <div>Sunset: {sunset}</div>
 
+            <div className="relative w-full h-80 bg-gradient-to-r from-blue-500 to-blue-300 text-center">
+                <div className="relative flex flex-col items-center justify-center h-full text-center">
+                <h1 className="text-3xl font-bold mb-4 ml-2 mr-2"><ReverseGeocoder latitude={latitude} longitude={longitude} /></h1>
+                <div className="flex items-center text-6xl font-bold mb-4">
+                <div className='flex justify-center items-center'><div className='px-2'><WeatherIcon icon={icon} /></div></div>
+                    <span>{temperature.toFixed()}° F</span>
+                </div>
+                <p className="text-2xl font-semibold">{summary}</p>
+                <div className="flex space-x-8 mt-4 text-sm">
+                <div>
+                    <p>Precipitation: {precipIntensity} inches / hour</p>
+                    <p>Wind: {windSpeed} mph</p>
+                    <p>Sunrise: {sunrise}</p>
+                </div>
+                <div>
+                    <p>Precipation chance: {precipProbability} %</p>
+                    <p>Wind direction: {windBearing} °</p>
+                    <p>Sunset: {sunset}</p>
+                </div>
+                </div>
+                </div>
 
             </div>)
         }

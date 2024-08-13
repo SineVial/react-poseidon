@@ -11,7 +11,10 @@ export default {
       },
       gridTemplateColumns: {
         '70/30': '70% 28%',
-      }
+      },
+      colors: {
+        skyBlue: 'rgb(91, 157, 225)',
+      },
     },
   },
   plugins: [],
