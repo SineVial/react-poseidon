@@ -17,7 +17,6 @@ interface SearchBarProps {
 const GeocoderSearchBar : React.FC<SearchBarProps> = ({ setLatitude, setLongitude}) => {
 
     const [suggestedSearchResults, setSuggestedSearchResults] = useState<SuggestedSearchResult[]>([])
-    const [selectedSuggestion, setSelectedSuggestion] = useState<SuggestedSearchResult | null>(null)
     const [query, setQuery] = useState<string>('')
     const [displayDropdown, setDisplayDropdown] = useState(false)
     
@@ -48,7 +47,7 @@ const GeocoderSearchBar : React.FC<SearchBarProps> = ({ setLatitude, setLongitud
     }
 
     const handleSelectChange = (selectedSuggestion : SuggestedSearchResult) => {
-        setSelectedSuggestion(selectedSuggestion)
+        setQuery('')
         setLatitude(selectedSuggestion.lat)
         setLongitude(selectedSuggestion.lon)
 
@@ -64,7 +63,7 @@ const GeocoderSearchBar : React.FC<SearchBarProps> = ({ setLatitude, setLongitud
 
             const firstResult = data[0]
 
-            setSelectedSuggestion(firstResult)
+            setQuery('')
             setLatitude(firstResult.lat)
             setLongitude(firstResult.lon)
 
