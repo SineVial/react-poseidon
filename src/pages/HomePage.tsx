@@ -21,15 +21,15 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
     const [elevation, setElevation] = useState(0)
     const [icon, setIcon] = useState('')
     const [summary, setSummary] = useState('')
-    const [precipIntensity, setPrecipIntensity] = useState()
+    const [precipIntensity, setPrecipIntensity] = useState(0)
     const [precipProbability, setPrecipProbability] = useState(0)
     const [precipType, setPrecipType] = useState('')
     const [temperature, setTemperature] = useState(0)
     const [apparentTemperature, setApparentTemperature] = useState(0)
-    const [windSpeed, setWindSpeed] = useState()
-    const [windBearing, setWindBearing] = useState()
+    const [windSpeed, setWindSpeed] = useState(0)
+    const [windBearing, setWindBearing] = useState(0)
     const [pressure, setPressure] = useState(0)
-    const [cloudCover, setCloudCover] = useState()
+    const [cloudCover, setCloudCover] = useState(0)
     const [sunrise, setSunrise] = useState('')
     const [sunset, setSunset] = useState('')
 
@@ -105,7 +105,7 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
                     <div className="flex flex-col mt-4 text-sm w-1/6">
                         <div className="flex justify-between border-b border-gray-300 pb-1">
                             <p>Precipitation:</p>
-                            <p className="text-right">{precipIntensity} inches / hour</p>
+                            <p className="text-right">{isCelsius ? (precipIntensity * 2.54).toFixed(2) + ' centimeters' : precipIntensity.toFixed(2) + ' inches'} / hour</p>
                         </div>
                         <div className="flex justify-between border-b border-gray-300 pb-1">
                             <p>Precipation chance:</p>
@@ -113,7 +113,7 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
                         </div>
                         <div className="flex justify-between border-b border-gray-300 pb-1">
                             <p>Wind:</p>
-                            <p className="text-right">{windSpeed} mph</p>
+                            <p className="text-right">{isCelsius ? (windSpeed * 1.609).toFixed(1) + ' kph': windSpeed.toFixed(1) + ' mph'}</p>
                         </div>
                         <div className="flex justify-between border-b border-gray-300 pb-1">
                             <p>Wind direction:</p>
