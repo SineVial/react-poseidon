@@ -13,7 +13,7 @@ import MainLayout from './MainLayout'
 const App : React.FC = () => {
   const [latitude, setLatitude] = useState(SEATTLE_LATITUDE)
   const [longitude, setLongitude] = useState(SEATTLE_LONGITUDE)
-  const [isCelsius, setIsCelsius] = useState(true)
+  const [isCelsius, setIsCelsius] = useState(false)
   
   const router = createBrowserRouter(
     createRoutesFromElements(
