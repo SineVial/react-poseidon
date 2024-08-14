@@ -11,9 +11,10 @@ interface HomePageProps {
     setLatitude: React.Dispatch<React.SetStateAction<number>>
     longitude: number
     setLongitude: React.Dispatch<React.SetStateAction<number>>
+    isCelsius: boolean
 }
 
-const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, setLongitude}) => {
+const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, setLongitude, isCelsius}) => {
 
     const [timezone, setTimezone] = useState('America/Los Angeles')
     const [offset, setOffset] = useState('')
@@ -98,7 +99,7 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
                     <div className="flex items-center text-6xl font-bold mb-4">
                         <div className='flex justify-center items-center'><div className='px-2'><WeatherIcon icon={icon} /></div>
                     </div>
-                    <span>{temperature.toFixed()}° F</span>
+                    <span>{isCelsius ? ((temperature - 32) * (5/9)).toFixed() + '°C' : temperature.toFixed() + "°F" }</span>
                     </div>
                     <p className="text-2xl font-semibold">{summary}</p>
                     <div className="flex flex-col mt-4 text-sm w-1/6">
