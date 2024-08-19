@@ -1,5 +1,6 @@
 import React from 'react'
 import GeocoderSearchBar from './GeocoderSearchBar'
+import Cookies from 'js-cookie'
 
 
 interface NavbarProps {
@@ -12,7 +13,9 @@ interface NavbarProps {
 const Navbar : React.FC<NavbarProps> = ({setLatitude, setLongitude, isCelsius, setIsCelsius}) => {
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsCelsius(event.target.checked);
+    const updatedIsCelsius = event.target.checked
+    setIsCelsius(updatedIsCelsius);
+    Cookies.set('isCelsius', JSON.stringify(updatedIsCelsius));
   };
 
   return (

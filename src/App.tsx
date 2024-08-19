@@ -9,11 +9,15 @@ import HomePage from './pages/HomePage'
 import NotFoundPage from './pages/NotFoundPage'
 import { SEATTLE_LATITUDE, SEATTLE_LONGITUDE } from './constants/Constants'
 import MainLayout from './MainLayout'
+import Cookies from 'js-cookie'
 
 const App : React.FC = () => {
   const [latitude, setLatitude] = useState(SEATTLE_LATITUDE)
   const [longitude, setLongitude] = useState(SEATTLE_LONGITUDE)
-  const [isCelsius, setIsCelsius] = useState(false)
+  const [isCelsius, setIsCelsius] = useState<boolean>(() => {
+    const saved = Cookies.get('isCelsius')
+    return saved ? JSON.parse(saved) : false
+  })
   
   const router = createBrowserRouter(
     createRoutesFromElements(
