@@ -75,8 +75,8 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
                 setWindBearing(data.currently.windBearing);
                 setPressure(data.currently.pressure);
                 setCloudCover(data.currently.cloudCover);
-                setSunrise(new Date(data.daily.data[0].sunriseTime * MILLISECONDS_IN_SECOND).toLocaleTimeString('en-US', {timeZone: data.timezone}));
-                setSunset(new Date(data.daily.data[0].sunsetTime * MILLISECONDS_IN_SECOND).toLocaleTimeString('en-US',  {timeZone: data.timezone}));
+                setSunrise(new Date(data.daily.data[0].sunriseTime * MILLISECONDS_IN_SECOND).toLocaleTimeString('en-US', {timeZone: data.timezone, hour: '2-digit', minute: '2-digit'}));
+                setSunset(new Date(data.daily.data[0].sunsetTime * MILLISECONDS_IN_SECOND).toLocaleTimeString('en-US',  {timeZone: data.timezone, hour: '2-digit', minute: '2-digit'}));
 
 
             } catch(error) {
@@ -95,9 +95,11 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
 
             <div className="relative w-full min-h-[24em] bg-gradient-to-r from-blue-600 to-blue-400 text-center text-white">
                 <div className="relative flex flex-col items-center justify-center h-full text-center">
-                    <h1 className="text-3xl font-bold mt-4"><ReverseGeocoder latitude={latitude} longitude={longitude} /></h1>
-                    <h2 className="text-xl m-2 ">{new Date().toLocaleString('en-US', {timeZone: timezone})}</h2>
-                    <div className="flex items-center text-6xl font-bold mb-4">
+                    <div className="flex justify-right text-right justify-between mt-4">
+                        <p className="text-right">{new Date().toLocaleString('en-US', {timeZone: timezone, day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'})}</p>
+                    </div>
+                    <h1 className="text-3xl font-bold mt-2 mb-4"><ReverseGeocoder latitude={latitude} longitude={longitude} /></h1>
+                    <div className="flex items-center text-6xl font-bold mb-2">
                         <div className='flex justify-center items-center'><div className='px-2'><WeatherIcon icon={icon} /></div>
                     </div>
                     <span>{isCelsius ? ((temperature - 32) * (5/9)).toFixed() + '°C' : temperature.toFixed() + "°F" }</span>
