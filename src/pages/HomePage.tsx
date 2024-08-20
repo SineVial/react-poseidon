@@ -16,7 +16,7 @@ interface HomePageProps {
 
 const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, setLongitude, isCelsius}) => {
 
-    const [timezone, setTimezone] = useState('America/Los Angeles')
+    const [timezone, setTimezone] = useState('America/Los_Angeles')
     const [offset, setOffset] = useState('')
     const [elevation, setElevation] = useState(0)
     const [icon, setIcon] = useState('')
@@ -38,7 +38,7 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
     const apikey = import.meta.env.VITE_PIRATEWEATHER_API_KEY
 
     useEffect(() => {
-        if ('geolocation' in navigator) {
+        if ('geolocation' in navigator && ! Cookies.get('latitude')) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     const updatedLatitude = position.coords.latitude
