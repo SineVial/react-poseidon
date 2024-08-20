@@ -3,8 +3,8 @@ import Spinner from '../components/Spinner'
 import ReverseGeocoder from '../components/ReverseGeocoder'
 import WeatherIcon from '../components/WeatherIcon'
 import { MILLISECONDS_IN_SECOND } from '../constants/Constants'
-
 import { useState, useEffect } from 'react'
+import Cookies from 'js-cookie'
 
 interface HomePageProps {
     latitude: number
@@ -41,8 +41,12 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    setLatitude(position.coords.latitude)
-                    setLongitude(position.coords.longitude)
+                    const updatedLatitude = position.coords.latitude
+                    const updatedLongitude = position.coords.longitude
+                    setLatitude(updatedLatitude)
+                    setLongitude(updatedLongitude)
+                    Cookies.set('latitude', JSON.stringify(updatedLatitude));
+                    Cookies.set('longitude', JSON.stringify(updatedLongitude));
                 },
                 (error) => {
                     console.error('Error getting geolocation', error)
