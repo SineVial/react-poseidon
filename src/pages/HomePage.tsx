@@ -112,7 +112,7 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
                         </div>
                         <div className="flex justify-between border-b border-gray-300 pb-1">
                             <p>Precipation chance:</p>
-                            <p className="text-right">{precipProbability} %</p>
+                            <p className="text-right">{precipProbability * 100} %</p>
                         </div>
                         <div className="flex justify-between border-b border-gray-300 pb-1">
                             <p>Wind:</p>
