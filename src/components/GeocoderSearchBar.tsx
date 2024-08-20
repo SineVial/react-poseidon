@@ -2,6 +2,7 @@ import React, { ChangeEvent, FormEvent, useCallback} from 'react'
 import { useState } from 'react'
 import { DEBOUNCE_DELAY_IN_MS } from '../constants/Constants'
 import { debounce } from 'lodash'
+import Cookies from 'js-cookie'
 
 interface SuggestedSearchResult {
     place_id: number
@@ -10,6 +11,7 @@ interface SuggestedSearchResult {
     lat: number
     lon: number
 }
+
 interface SearchBarProps {
     setLatitude: React.Dispatch<React.SetStateAction<number>>
     setLongitude: React.Dispatch<React.SetStateAction<number>>
@@ -49,8 +51,14 @@ const GeocoderSearchBar : React.FC<SearchBarProps> = ({ setLatitude, setLongitud
 
     const handleSelectChange = (selectedSuggestion : SuggestedSearchResult) => {
         setQuery('')
-        setLatitude(selectedSuggestion.lat)
-        setLongitude(selectedSuggestion.lon)
+        const updatedLatitude = selectedSuggestion.lat
+        const updatedLongitude = selectedSuggestion.lon
+
+        setLatitude(updatedLatitude)
+        setLongitude(updatedLongitude)
+        Cookies.set('latitude', JSON.stringify(updatedLatitude));
+        Cookies.set('longitude', JSON.stringify(updatedLongitude));
+
 
         setDisplayDropdown(false)
         setSuggestedSearchResults([])
@@ -65,8 +73,15 @@ const GeocoderSearchBar : React.FC<SearchBarProps> = ({ setLatitude, setLongitud
             const firstResult = data[0]
 
             setQuery('')
-            setLatitude(firstResult.lat)
-            setLongitude(firstResult.lon)
+
+            const updatedLatitude = firstResult.lat
+            const updatedLongitude = firstResult.lat
+
+            setLatitude(updatedLatitude)
+            setLongitude(updatedLongitude)
+
+            Cookies.set('latitude', JSON.stringify(updatedLatitude));
+            Cookies.set('longitude', JSON.stringify(updatedLongitude));
 
             setDisplayDropdown(false)
             setSuggestedSearchResults([])

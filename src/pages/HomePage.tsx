@@ -3,8 +3,8 @@ import Spinner from '../components/Spinner'
 import ReverseGeocoder from '../components/ReverseGeocoder'
 import WeatherIcon from '../components/WeatherIcon'
 import { MILLISECONDS_IN_SECOND } from '../constants/Constants'
-
 import { useState, useEffect } from 'react'
+import Cookies from 'js-cookie'
 
 interface HomePageProps {
     latitude: number
@@ -16,7 +16,7 @@ interface HomePageProps {
 
 const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, setLongitude, isCelsius}) => {
 
-    const [timezone, setTimezone] = useState('America/Los Angeles')
+    const [timezone, setTimezone] = useState('America/Los_Angeles')
     const [offset, setOffset] = useState('')
     const [elevation, setElevation] = useState(0)
     const [icon, setIcon] = useState('')
@@ -38,11 +38,15 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
     const apikey = import.meta.env.VITE_PIRATEWEATHER_API_KEY
 
     useEffect(() => {
-        if ('geolocation' in navigator) {
+        if ('geolocation' in navigator && ! Cookies.get('latitude')) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    setLatitude(position.coords.latitude)
-                    setLongitude(position.coords.longitude)
+                    const updatedLatitude = position.coords.latitude
+                    const updatedLongitude = position.coords.longitude
+                    setLatitude(updatedLatitude)
+                    setLongitude(updatedLongitude)
+                    Cookies.set('latitude', JSON.stringify(updatedLatitude));
+                    Cookies.set('longitude', JSON.stringify(updatedLongitude));
                 },
                 (error) => {
                     console.error('Error getting geolocation', error)
