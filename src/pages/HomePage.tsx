@@ -103,7 +103,7 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
                     <span>{isCelsius ? ((temperature - 32) * (5/9)).toFixed() + '°C' : temperature.toFixed() + "°F" }</span>
                     </div>
                     <p className="text-2xl font-semibold">{summary}</p>
-                    <div className="flex flex-col mt-4 text-sm w-1/6">
+                    <div className="flex flex-col m-4 text-sm w-1/6">
                         <div className="flex justify-between border-b border-gray-300 pb-1">
                             <p>Precipitation:</p>
                             <p className="text-right">{isCelsius ? (precipIntensity * 2.54).toFixed(2) + ' centimeters' : precipIntensity.toFixed(2) + ' inches'} / hour</p>
