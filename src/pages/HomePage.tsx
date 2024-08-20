@@ -75,8 +75,8 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
                 setWindBearing(data.currently.windBearing);
                 setPressure(data.currently.pressure);
                 setCloudCover(data.currently.cloudCover);
-                setSunrise(new Date(data.daily.data[0].sunriseTime * MILLISECONDS_IN_SECOND).toLocaleTimeString());
-                setSunset(new Date(data.daily.data[0].sunsetTime * MILLISECONDS_IN_SECOND).toLocaleTimeString());
+                setSunrise(new Date(data.daily.data[0].sunriseTime * MILLISECONDS_IN_SECOND).toLocaleTimeString('en-US', {timeZone: data.timezone}));
+                setSunset(new Date(data.daily.data[0].sunsetTime * MILLISECONDS_IN_SECOND).toLocaleTimeString('en-US',  {timeZone: data.timezone}));
 
 
             } catch(error) {
@@ -95,7 +95,8 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
 
             <div className="relative w-full min-h-[24em] bg-gradient-to-r from-blue-600 to-blue-400 text-center text-white">
                 <div className="relative flex flex-col items-center justify-center h-full text-center">
-                    <h1 className="text-3xl font-bold m-4"><ReverseGeocoder latitude={latitude} longitude={longitude} /></h1>
+                    <h1 className="text-3xl font-bold mt-4"><ReverseGeocoder latitude={latitude} longitude={longitude} /></h1>
+                    <h2 className="text-xl m-2 ">{new Date().toLocaleString('en-US', {timeZone: timezone})}</h2>
                     <div className="flex items-center text-6xl font-bold mb-4">
                         <div className='flex justify-center items-center'><div className='px-2'><WeatherIcon icon={icon} /></div>
                     </div>
@@ -118,6 +119,10 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
                         <div className="flex justify-between border-b border-gray-300 pb-1">
                             <p>Wind direction:</p>
                             <p className="text-right">{windBearing} °</p>
+                        </div>
+                        <div className="flex justify-between border-b border-gray-300 pb-1">
+                            <p>Elevation:</p>
+                            <p className="text-right">{isCelsius? (elevation * 0.3048).toFixed() + ' meters' : elevation.toFixed() + ' feet'} </p>
                         </div>
                         <div className="flex justify-between border-b border-gray-300 pb-1">
                             <p>Sunrise:</p>
