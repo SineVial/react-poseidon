@@ -21,7 +21,7 @@ const Navbar : React.FC<NavbarProps> = ({setLatitude, setLongitude, isCelsius, s
   return (
     <nav className="bg-white p-4">
         <div className="container mx-auto flex items-center justify-between">
-          <div className="text-blue-600 text-xl font-bold flex-grow">WeatherCast</div>
+          <div className="text-blue-600 text-xl font-bold flex-grow">LibreCast</div>
           <div className="flex space-x-8">
             <div className="flex items-center float-right">
               <span className="mr-2 text-sm font-medium text-gray-900">°F</span>

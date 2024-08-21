@@ -5,6 +5,7 @@ import WeatherIcon from '../components/WeatherIcon'
 import { MILLISECONDS_IN_SECOND } from '../constants/Constants'
 import { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
+import TwentyFourHourWeatherBarWrapper from '../components/TwentyFourHourWeatherBarWrapper'
 
 interface HomePageProps {
     latitude: number
@@ -32,6 +33,7 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
     const [cloudCover, setCloudCover] = useState(0)
     const [sunrise, setSunrise] = useState('')
     const [sunset, setSunset] = useState('')
+    const [hourlyWeatherForecast, setHourlyWeatherForecast] = useState([])
 
     const [loading, setLoading] = useState(true)
 
@@ -82,6 +84,8 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
                 setSunrise(new Date(data.daily.data[0].sunriseTime * MILLISECONDS_IN_SECOND).toLocaleTimeString('en-US', {timeZone: data.timezone, hour: '2-digit', minute: '2-digit'}));
                 setSunset(new Date(data.daily.data[0].sunsetTime * MILLISECONDS_IN_SECOND).toLocaleTimeString('en-US',  {timeZone: data.timezone, hour: '2-digit', minute: '2-digit'}));
 
+                setHourlyWeatherForecast(data.hourly.data)
+
 
             } catch(error) {
                 console.log('Error fetching weather data', error)
@@ -96,7 +100,7 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
     return (
         <>
         {loading ? (<Spinner loading={loading}/>) : (
-
+            <>
             <div className="relative w-full min-h-[24em] bg-gradient-to-r from-blue-600 to-blue-400 text-center text-white">
                 <div className="relative flex flex-col items-center justify-center h-full text-center">
                     <div className="flex justify-right text-right justify-between mt-4">
@@ -109,6 +113,7 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
                     <span>{isCelsius ? ((temperature - 32) * (5/9)).toFixed() + '°C' : temperature.toFixed() + "°F" }</span>
                     </div>
                     <p className="text-2xl font-semibold">{summary}</p>
+                    <TwentyFourHourWeatherBarWrapper hourlyWeatherForecasts={hourlyWeatherForecast} />
                     <div className="flex flex-col m-4 text-sm w-1/6">
                         <div className="flex justify-between border-b border-gray-300 pb-1">
                             <p>Precipitation:</p>
@@ -116,7 +121,7 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
                         </div>
                         <div className="flex justify-between border-b border-gray-300 pb-1">
                             <p>Precipation chance:</p>
-                            <p className="text-right">{precipProbability * 100} %</p>
+                            <p className="text-right">{(precipProbability * 100).toFixed()} %</p>
                         </div>
                         <div className="flex justify-between border-b border-gray-300 pb-1">
                             <p>Wind:</p>
@@ -140,7 +145,8 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
                         </div>
                     </div>
                 </div>
-            </div>)
+            </div>
+            </>)
         }
         </>
     )
