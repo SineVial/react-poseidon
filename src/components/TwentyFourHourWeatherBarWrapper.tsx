@@ -30,7 +30,7 @@ interface TwentyFourHourWeatherBarWrapperProps {
 
 const TwentyFourHourWeatherBarWrapper : React.FC<TwentyFourHourWeatherBarWrapperProps> = ({hourlyWeatherForecasts}) => {
     const segments = []
-    for (let index = 0; index <= 24; index++) {
+    for (let index = 0; index < 24; index++) {
         var color = 'bg-zinc-100'
         if (hourlyWeatherForecasts[index].icon === 'partly-cloudy-day' || hourlyWeatherForecasts[index].icon === 'partly-cloudy-night') {
             color = 'bg-zinc-200'
@@ -52,7 +52,7 @@ const TwentyFourHourWeatherBarWrapper : React.FC<TwentyFourHourWeatherBarWrapper
 
         const segment = {
             color: `${color}`,
-            width: '4',
+            width: '4.2',
             label: `${hourlyWeatherForecasts[index].summary}`,
         }
         segments.push(segment)
