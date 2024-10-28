@@ -106,7 +106,7 @@ const HomePage : React.FC<HomePageProps> = ({latitude, setLatitude, longitude, s
                     <div className="flex justify-right text-right justify-between mt-4">
                         <p className="text-right">{new Date().toLocaleString('en-US', {timeZone: timezone, day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'})}</p>
                     </div>
-                    <h1 className="text-3xl font-bold mt-2 mb-4"><ReverseGeocoder latitude={latitude} longitude={longitude} /></h1>
+                    <h1 className="text-3xl font-bold mt-2 mb-4 mx-4"><ReverseGeocoder latitude={latitude} longitude={longitude} /></h1>
                     <div className="flex items-center text-6xl font-bold mb-2">
                         <div className='flex justify-center items-center'><div className='px-2'><WeatherIcon icon={icon} /></div>
                     </div>
