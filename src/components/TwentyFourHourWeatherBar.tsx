@@ -1,6 +1,6 @@
 import React from 'react'
 
-type WeatherBarSegment = {
+export type WeatherBarSegment = {
     color: string
     width: string
     label?: string

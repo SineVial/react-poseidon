@@ -1,5 +1,5 @@
 import React from 'react'
-import TwentyFourHourWeatherBar from './TwentyFourHourWeatherBar'
+import TwentyFourHourWeatherBar, { WeatherBarSegment } from './TwentyFourHourWeatherBar'
 
 type HourlyWeatherForecast = {
     time: number,
@@ -28,36 +28,61 @@ interface TwentyFourHourWeatherBarWrapperProps {
     hourlyWeatherForecasts : HourlyWeatherForecast[]
 }
 
-const TwentyFourHourWeatherBarWrapper : React.FC<TwentyFourHourWeatherBarWrapperProps> = ({hourlyWeatherForecasts}) => {
-    const segments = []
-    for (let index = 0; index < 24; index++) {
-        var color = 'bg-zinc-100'
-        if (hourlyWeatherForecasts[index].icon === 'partly-cloudy-day' || hourlyWeatherForecasts[index].icon === 'partly-cloudy-night') {
-            color = 'bg-zinc-200'
-        } else if (hourlyWeatherForecasts[index].icon === 'cloudy') {
-            color = 'bg-zinc-400'
-        } else if (hourlyWeatherForecasts[index].icon === 'clear-day' || hourlyWeatherForecasts[index].icon === 'clear-night' || hourlyWeatherForecasts[index].icon === 'clear') {
-            color = 'bg-zinc-100'
-        } else if (hourlyWeatherForecasts[index].icon === 'fog') {
-            color = 'bg-zinc-600'
-        } else if (hourlyWeatherForecasts[index].icon === 'rain') {
-            color = 'bg-blue-800'
-        } else if (hourlyWeatherForecasts[index].icon === 'snow') {
-            color = 'bg-fuschia-800'
-        } else if (hourlyWeatherForecasts[index].icon === 'sleet') {
-            color = 'bg-indogo-800'
-        } else if (hourlyWeatherForecasts[index].icon === 'wind') {
-            color = 'bg-zinc-600'
-        }
 
-        const segment = {
-            color: `${color}`,
-            width: '4.2',
-            label: `${hourlyWeatherForecasts[index].summary}`,
+const TwentyFourHourWeatherBarWrapper : React.FC<TwentyFourHourWeatherBarWrapperProps> = ({hourlyWeatherForecasts}) => {
+    let segments : WeatherBarSegment[] = []
+    var currSegmentColor = ''
+    var currSegmentCount = 0
+    var currSegmentSummary = ''
+    var currSegmentIcon = ''
+
+    function pushSegment() {
+        const segment : WeatherBarSegment = {
+            color: `${currSegmentColor}`,
+            width: `${4.166667 * currSegmentCount}`,
+            label: currSegmentSummary,
         }
         segments.push(segment)
     }
 
+    const segments_in_bar = 24
+    for (let index = 0; index < segments_in_bar; index++) {
+
+        if (index > 0 && hourlyWeatherForecasts[index].icon !== currSegmentIcon) {
+            pushSegment()
+
+            currSegmentCount = 0
+            currSegmentSummary = ''
+
+        }
+
+        currSegmentSummary = hourlyWeatherForecasts[index].summary
+        currSegmentIcon = hourlyWeatherForecasts[index].icon
+
+        currSegmentColor = 'bg-zinc-100'
+        if (hourlyWeatherForecasts[index].icon === 'partly-cloudy-day' || hourlyWeatherForecasts[index].icon === 'partly-cloudy-night') {
+            currSegmentColor = 'bg-zinc-200'
+        } else if (hourlyWeatherForecasts[index].icon === 'cloudy') {
+            currSegmentColor = 'bg-zinc-400'
+        } else if (hourlyWeatherForecasts[index].icon === 'clear-day' || hourlyWeatherForecasts[index].icon === 'clear-night' || hourlyWeatherForecasts[index].icon === 'clear') {
+            currSegmentColor = 'bg-zinc-100'
+        } else if (hourlyWeatherForecasts[index].icon === 'fog') {
+            currSegmentColor = 'bg-zinc-600'
+        } else if (hourlyWeatherForecasts[index].icon === 'rain') {
+            currSegmentColor = 'bg-blue-800'
+        } else if (hourlyWeatherForecasts[index].icon === 'snow') {
+            currSegmentColor = 'bg-fuschia-800'
+        } else if (hourlyWeatherForecasts[index].icon === 'sleet') {
+            currSegmentColor = 'bg-indogo-800'
+        } else if (hourlyWeatherForecasts[index].icon === 'wind') {
+            currSegmentColor = 'bg-zinc-600'
+        }
+
+        currSegmentCount++
+
+    }
+
+    pushSegment()
 
     return (
         <TwentyFourHourWeatherBar segments={segments}/>
