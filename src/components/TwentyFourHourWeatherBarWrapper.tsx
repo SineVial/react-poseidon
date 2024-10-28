@@ -32,35 +32,15 @@ interface TwentyFourHourWeatherBarWrapperProps {
 const TwentyFourHourWeatherBarWrapper : React.FC<TwentyFourHourWeatherBarWrapperProps> = ({hourlyWeatherForecasts}) => {
     let segments : WeatherBarSegment[] = []
     var currSegmentColor = ''
-    var currSegmentCount = 0
+    var currSegmentTemperature = 0
     var currSegmentSummary = ''
-    var currSegmentIcon = ''
     var currSegmentLightLabel = false
-
-
-    function pushSegment() {
-        const segment : WeatherBarSegment = {
-            color: `${currSegmentColor}`,
-            width: `${4.166667 * currSegmentCount}`,
-            label: currSegmentSummary,
-            lightLabel: currSegmentLightLabel,
-        }
-        segments.push(segment)
-    }
 
     const segments_in_bar = 24
     for (let index = 0; index < segments_in_bar; index++) {
 
-        if (index > 0 && hourlyWeatherForecasts[index].icon !== currSegmentIcon) {
-            pushSegment()
-
-            currSegmentCount = 0
-            currSegmentSummary = ''
-
-        }
-
+        currSegmentTemperature = hourlyWeatherForecasts[index].temperature
         currSegmentSummary = hourlyWeatherForecasts[index].summary
-        currSegmentIcon = hourlyWeatherForecasts[index].icon
 
         currSegmentColor = 'bg-zinc-100'
         currSegmentLightLabel = false
@@ -87,11 +67,16 @@ const TwentyFourHourWeatherBarWrapper : React.FC<TwentyFourHourWeatherBarWrapper
             currSegmentLightLabel = true
         }
 
-        currSegmentCount++
+        const segment : WeatherBarSegment = {
+            color: `${currSegmentColor}`,
+            temperature: currSegmentTemperature,
+            label: currSegmentSummary,
+            lightLabel: currSegmentLightLabel,
+        }
+        segments.push(segment)
+
 
     }
-
-    pushSegment()
 
     return (
         <TwentyFourHourWeatherBar segments={segments}/>

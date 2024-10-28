@@ -2,8 +2,9 @@ import React from 'react'
 
 export type WeatherBarSegment = {
     color: string
-    width: string
-    label?: string
+    temperature: number
+    width?: string
+    label: string
     lightLabel: boolean
 }
 
@@ -12,12 +13,55 @@ interface TwentyFourHourWeatherBarProps {
 }
 
 const TwentyFourHourWeatherBar : React.FC<TwentyFourHourWeatherBarProps> = ({segments}) => {
+    let grouped_segments : WeatherBarSegment[] = []
+    var currSegmentColor = ''
+    var currSegmentTemperature = 0
+    var currSegmentCount = 0
+    var currSegmentLabel = ''
+    var currSegmentLightLabel = false
+
+
+    function pushSegment() {
+        const segment : WeatherBarSegment = {
+            color: `${currSegmentColor}`,
+            temperature: currSegmentTemperature,
+            width: `${4.166667 * currSegmentCount}`,
+            label: currSegmentLabel,
+            lightLabel: currSegmentLightLabel,
+        }
+        grouped_segments.push(segment)
+    }
+
+    for (let index = 0; index < segments.length; index++) {
+
+        if (index > 0 && segments[index].label !== currSegmentLabel) {
+            pushSegment()
+
+            currSegmentColor = ''
+            currSegmentTemperature = -1000
+            currSegmentCount = 0
+            currSegmentLabel = ''
+            currSegmentLightLabel = false
+
+        }
+
+        currSegmentColor = segments[index].color
+        currSegmentTemperature = segments[index].temperature
+        currSegmentLabel = segments[index].label
+        currSegmentLightLabel = segments[index].lightLabel
+
+        currSegmentCount++
+
+    }
+
+    pushSegment()
+
     return (
         <div className='w-3/4 '>
             <div className="flex w-full items-center justify-center h-8 mt-4">
-                {segments.map((segment, index) => {
+                {grouped_segments.map((segment, index) => {
                     const isFirst = index === 0
-                    const isLast = index === segments.length - 1
+                    const isLast = index === grouped_segments.length - 1
                     return (
                     <div
                         key={index}
@@ -33,6 +77,7 @@ const TwentyFourHourWeatherBar : React.FC<TwentyFourHourWeatherBarProps> = ({seg
                 <div key={index} className="flex flex-col items-center" style={{ width: 4.166667}}>
                     <div className="w-px h-4 bg-gray-700"></div>
                     <span className="text-xs">{index === 24 ? 0 : index}:00</span>
+                    <span className="text-xs">{`${ index < 24 ? Math.floor(segments[index].temperature) + '°' : ''}`}</span>
                 </div>
                 ))}
             </div>
