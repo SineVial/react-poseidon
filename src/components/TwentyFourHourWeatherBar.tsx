@@ -4,6 +4,7 @@ export type WeatherBarSegment = {
     color: string
     width: string
     label?: string
+    lightLabel: boolean
 }
 
 interface TwentyFourHourWeatherBarProps {
@@ -23,7 +24,7 @@ const TwentyFourHourWeatherBar : React.FC<TwentyFourHourWeatherBarProps> = ({seg
                         className={`h-full justify-center ${segment.color} flex ${isFirst ? 'rounded-l-md' : ''} ${isLast ? 'rounded-r-md' : ''}`}
                         style={{ width: `${segment.width}%`}}
                     >
-                        {segment.label && <span className="text-neutral-800 text-xs">{segment.label}</span>}
+                        {segment.label && <span className={`${segment.lightLabel ? `text-neutral-0` : `text-neutral-800`} text-xs`}>{segment.label}</span>}
                     </div>
                 )})}
             </div>

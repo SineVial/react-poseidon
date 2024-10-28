@@ -35,12 +35,15 @@ const TwentyFourHourWeatherBarWrapper : React.FC<TwentyFourHourWeatherBarWrapper
     var currSegmentCount = 0
     var currSegmentSummary = ''
     var currSegmentIcon = ''
+    var currSegmentLightLabel = false
+
 
     function pushSegment() {
         const segment : WeatherBarSegment = {
             color: `${currSegmentColor}`,
             width: `${4.166667 * currSegmentCount}`,
             label: currSegmentSummary,
+            lightLabel: currSegmentLightLabel,
         }
         segments.push(segment)
     }
@@ -60,6 +63,7 @@ const TwentyFourHourWeatherBarWrapper : React.FC<TwentyFourHourWeatherBarWrapper
         currSegmentIcon = hourlyWeatherForecasts[index].icon
 
         currSegmentColor = 'bg-zinc-100'
+        currSegmentLightLabel = false
         if (hourlyWeatherForecasts[index].icon === 'partly-cloudy-day' || hourlyWeatherForecasts[index].icon === 'partly-cloudy-night') {
             currSegmentColor = 'bg-zinc-200'
         } else if (hourlyWeatherForecasts[index].icon === 'cloudy') {
@@ -68,14 +72,19 @@ const TwentyFourHourWeatherBarWrapper : React.FC<TwentyFourHourWeatherBarWrapper
             currSegmentColor = 'bg-zinc-100'
         } else if (hourlyWeatherForecasts[index].icon === 'fog') {
             currSegmentColor = 'bg-zinc-600'
+            currSegmentLightLabel = true
         } else if (hourlyWeatherForecasts[index].icon === 'rain') {
             currSegmentColor = 'bg-blue-800'
+            currSegmentLightLabel = true
         } else if (hourlyWeatherForecasts[index].icon === 'snow') {
-            currSegmentColor = 'bg-fuschia-800'
+            currSegmentColor = 'bg-fuchsia-800'
+            currSegmentLightLabel = true
         } else if (hourlyWeatherForecasts[index].icon === 'sleet') {
-            currSegmentColor = 'bg-indogo-800'
+            currSegmentColor = 'bg-indigo-800'
+            currSegmentLightLabel = true
         } else if (hourlyWeatherForecasts[index].icon === 'wind') {
             currSegmentColor = 'bg-zinc-600'
+            currSegmentLightLabel = true
         }
 
         currSegmentCount++
