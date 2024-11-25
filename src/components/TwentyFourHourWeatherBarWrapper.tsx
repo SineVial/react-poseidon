@@ -25,11 +25,12 @@ type HourlyWeatherForecast = {
 }
 
 interface TwentyFourHourWeatherBarWrapperProps {
-    hourlyWeatherForecasts : HourlyWeatherForecast[]
+    hourlyWeatherForecasts : HourlyWeatherForecast[],
+    timezone: string
 }
 
 
-const TwentyFourHourWeatherBarWrapper : React.FC<TwentyFourHourWeatherBarWrapperProps> = ({hourlyWeatherForecasts}) => {
+const TwentyFourHourWeatherBarWrapper : React.FC<TwentyFourHourWeatherBarWrapperProps> = ({hourlyWeatherForecasts, timezone}) => {
     let segments : WeatherBarSegment[] = []
     var currSegmentColor = ''
     var currSegmentTemperature = 0
@@ -79,7 +80,7 @@ const TwentyFourHourWeatherBarWrapper : React.FC<TwentyFourHourWeatherBarWrapper
     }
 
     return (
-        <TwentyFourHourWeatherBar segments={segments}/>
+        <TwentyFourHourWeatherBar segments={segments} timezone={timezone}/>
     )
 }
 

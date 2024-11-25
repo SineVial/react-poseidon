@@ -9,16 +9,19 @@ export type WeatherBarSegment = {
 }
 
 interface TwentyFourHourWeatherBarProps {
-    segments: WeatherBarSegment[]
+    segments: WeatherBarSegment[],
+    timezone: string
 }
 
-const TwentyFourHourWeatherBar : React.FC<TwentyFourHourWeatherBarProps> = ({segments}) => {
+const TwentyFourHourWeatherBar : React.FC<TwentyFourHourWeatherBarProps> = ({segments, timezone}) => {
     let grouped_segments : WeatherBarSegment[] = []
     var currSegmentColor = ''
     var currSegmentTemperature = 0
     var currSegmentCount = 0
     var currSegmentLabel = ''
     var currSegmentLightLabel = false
+    var locale_str = new Date().toLocaleString('en-US', { timeZone: timezone, hour: 'numeric' , hour12: false})
+    var starting_hour = parseInt(locale_str.split(' ')[0])
 
 
     function pushSegment() {
@@ -76,7 +79,7 @@ const TwentyFourHourWeatherBar : React.FC<TwentyFourHourWeatherBarProps> = ({seg
                 {Array.from({ length: 25 }, (_, index) => (
                 <div key={index} className="flex flex-col items-center" style={{ width: 4.166667}}>
                     <div className="w-px h-4 bg-gray-700"></div>
-                    <span className="text-xs">{index === 24 ? 0 : index}:00</span>
+                    <span className="text-xs">{index + starting_hour >= 24 ? (index + starting_hour - 24) : index + starting_hour}:00</span>
                     <span className="text-xs">{`${ index < 24 ? Math.floor(segments[index].temperature) + '°' : ''}`}</span>
                 </div>
                 ))}
